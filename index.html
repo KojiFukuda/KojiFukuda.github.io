@@ -37,7 +37,7 @@
         targetinput.focus();
  
         // ちょっと遅延して入力確定
-        sleepfunc(300, function () {
+        sleepfunc(100, function () {
             var inputcode = targetinput.value;
             var ch = inputcode[0];
             if(ch =='u' || ch == 'U') {
@@ -49,29 +49,30 @@
             }
 
             target = document.getElementById("output");
-            target.innerHTML ="<lebel>ユーザーID : <input type=\"text\" value=\""+userid +"\" ;\"/></lebel><br />"+ 
-                                "<lebel>オーダーNo. : <input type=\"text\" value=\""+orderno +"\" ;\"/></lebel><br />"+ 
-                                "<lebel>工程ID : <input type=\"text\" value=\""+procid +"\" ;\"/></lebel><br />";
+            target.innerHTML ="<lebel>ユーザーID : <input type=\"text\" readonly=\"readonly\" value=\""+userid +"\" ;\"/></lebel><br />"+ 
+                                "<lebel>オーダーNo. : <input type=\"text\" readonly=\"readonly\" value=\""+orderno +"\" ;\"/></lebel><br />"+ 
+                                "<lebel>工程ID : <input type=\"text\" readonly=\"readonly\" value=\""+procid +"\" ;\"/></lebel><br />";
             reading=false;
          });    
      }
  
      function sleepfunc(waitmilliSec, callbackFunc) {
-         // 経過時間（ms）
-         var spanedMSec = 0;
- 
-         // 100ms間隔で無名関数を実行
-         var id = setInterval(function () {
-             spanedMSec+=100;
- 
-             // 経過時間 >= 待機時間の場合、待機終了。
-             if (spanedMSec >= waitmilliSec) {
-                 // タイマー停止
-                 clearInterval(id);  
-                 // 完了時、コールバック関数を実行
-                 if (callbackFunc) callbackFunc();
-             }
-         }, 100);
+        // 経過時間（ms）
+        var spanedMSec = 0;
+        var interval = 20;
+
+        // 100ms間隔で無名関数を実行
+        var id = setInterval(function () {
+            spanedMSec+=interval;
+
+            // 経過時間 >= 待機時間の場合、待機終了。
+            if (spanedMSec >= waitmilliSec) {
+                // タイマー停止
+                clearInterval(id);  
+                // 完了時、コールバック関数を実行
+                if (callbackFunc) callbackFunc();
+            }
+        }, interval);
      }
  
      function initializeProc()
