@@ -31,20 +31,21 @@
      //ページ中どこでキー押されてもフォーカスはテキストボックスに
      function keyDown()
      {
-        // まずクリア
+
         targetinput = document.getElementById("textcode");
-        targetinput.value += String.fromCharCode(event.keyCode);
-        //alert(event.keyCode);
-        
-        if(reading)return;
-        
-        targetinput.value = "";
+        targetinput.focus();
+
+        if(reading) {
+            targetinput.value += String.fromCharCode(event.keyCode);
+            return;
+        }else{
+            targetinput.value = String.fromCharCode(event.keyCode);
+        }
+    
         reading = true;
          
         count++;//デバッグ用読み取り回数
  
-        // 入力ボックスにフォーカス
-        targetinput.focus();
  
         // ちょっと遅延して入力確定
         sleepfunc(1300, function () {
