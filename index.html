@@ -11,17 +11,19 @@
     <input type="button" id = "btn" value="Clear" onclick="OnButtonClick();"/><br />
     <br />
     <div id="output"></div>
+    <div id="output2"></div>
 </body>
 
 <script>
     window.onload = initializeProc
      document.onkeydown = keyDown;
-     var dsm;
      var reading = false;
      var count = 0;
-     var userid = "";
-     var orderno = "";
-     var procid = "";
+     var params = {};
+     
+     // 入力必須のキー
+     var keys = ['userid', 'procid', 'orderno'];
+
      //ページ中どこでキー押されてもフォーカスはテキストボックスに
      function keyDown()
      {
@@ -37,28 +39,55 @@
         targetinput.focus();
  
         // ちょっと遅延して入力確定
-        sleepfunc(100, function () {
+        sleepfunc(3000, function () {
             var inputcode = targetinput.value;
-            var ch = inputcode[0];
-            if(ch =='u' || ch == 'U') {
-                userid = inputcode;
-            } else if(ch == 'o' || ch == 'O') {
-                orderno = inputcode;
-            } else if(ch == 'p' || ch == 'P') {
-                procid = inputcode;
-            }
+            
+            var type = gettype(inputcode);
+            if(type != "") params[type] = inputcode;
 
             target = document.getElementById("output");
-            target.innerHTML ="<lebel>ユーザーID : <input type=\"text\" readonly=\"readonly\" value=\""+userid +"\" ;\"/></lebel><br />"+ 
-                                "<lebel>オーダーNo. : <input type=\"text\" readonly=\"readonly\" value=\""+orderno +"\" ;\"/></lebel><br />"+ 
-                                "<lebel>工程ID : <input type=\"text\" readonly=\"readonly\" value=\""+procid +"\" ;\"/></lebel><br />";
+            target2 = document.getElementById("output2");
+            
+            var body = "";
+            for(let index in keys){
+                var key = keys[index];
+                var val = params[key] ? params[key] : "";
+                body += "<lebel>"+ key + " : <input type=\"text\" readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
+            }
+
+            target.innerHTML = body;
             reading=false;
+            if(isComplete()){
+                target2.innerHTML= "Data is complete! </br>Send Data!</br><br>"+body;
+                clearValues();
+            }else{
+                target2.innerHTML="";
+            }
 
             var button = document.getElementById("btn");
             button.focus();
          });    
      }
- 
+     function isComplete(){
+         var enablekey = keys.filter(key => !params[key] || params[key]=="");
+         
+         return enablekey.length == 0;
+     }
+     function gettype(readcode)
+     {
+        if(readcode.startsWith('EID'))return "userid";
+        if(readcode.startsWith('process'))return "procid";
+        if(Number(readcode) && readcode.length == 11)return "orderno";
+
+        return "";
+     }
+     function clearValues()
+     {
+        targetinput.value = "";
+        target = document.getElementById("output");
+        params = {};
+        target.innerHTML = "" ;
+     }
      function sleepfunc(waitmilliSec, callbackFunc) {
         // 経過時間（ms）
         var spanedMSec = 0;
@@ -84,9 +113,7 @@
      }
      function OnButtonClick() 
      {
-        targetinput.value = "";
-        target = document.getElementById("output");
-        target.innerHTML = "" ;
+       clearValues();
      }
  </script>
 </html>
