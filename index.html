@@ -8,7 +8,7 @@
     <br />
     <lebel>入力コード : <input type="text" id="textcode" onfocus="blur();" value="" ;"/></lebel><br />
     <br />
-    <input type="button" value="Clear" onclick="OnButtonClick();"/><br />
+    <input type="button" id = "btn" value="Clear" onclick="OnButtonClick();"/><br />
     <br />
     <div id="output"></div>
 </body>
@@ -53,6 +53,9 @@
                                 "<lebel>オーダーNo. : <input type=\"text\" readonly=\"readonly\" value=\""+orderno +"\" ;\"/></lebel><br />"+ 
                                 "<lebel>工程ID : <input type=\"text\" readonly=\"readonly\" value=\""+procid +"\" ;\"/></lebel><br />";
             reading=false;
+
+            var button = document.getElementById("btn");
+            button.focus();
          });    
      }
  
