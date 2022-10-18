@@ -3,14 +3,15 @@
     <meta charset="utf-8">
     <title>CodeReadSample</title>
 </head>
-<body>
-    <p><font size="6">Création</font>  データ入力モックアップ</p>
-    <br />
-    <lebel>入力コード : <input type="text" id="textcode" value="" ;"/></lebel><br />
+<body bgcolor="#BBBBE0" text="#505050">
+    <font size="6">
+    <p>Création</p>
+    <lebel>入力コード :</br> <input type="text" id="textcode" value="" ;"/></lebel><br />
     <br />
     <input type="button" id = "btn" value="Clear" onclick="OnButtonClick();"/><br />
-    <br />
+    </font> 
     <div id="output"></div>
+    <br />
     <div id="output2"></div>
     <br/>
     <div id="output2">release @ 2022/10/18 15:35</div>
@@ -56,7 +57,7 @@
                 for(let index in keys){
                     var key = keys[index];
                     var val = params[key] ? params[key] : "";
-                    body += "<lebel>"+ key + " : <input type=\"text\" readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
+                    body += "<lebel>"+ key + ":</br> <input type=\"text\" readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
                 }
 
                 target.innerHTML = body;
