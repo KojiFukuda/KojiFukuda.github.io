@@ -6,7 +6,7 @@
 <body>
     <p><font size="6">Création</font>  データ入力モックアップ</p>
     <br />
-    <lebel>入力コード : <input type="text" id="textcode" value="" ;"/></lebel><br />
+    <lebel>入力コード : <input type="text" id="textcode" onfocus="blur();" value="" ;"/></lebel><br />
     <br />
     <input type="button" value="Clear" onclick="OnButtonClick();"/><br />
     <br />
@@ -61,7 +61,6 @@
         var spanedMSec = 0;
         var interval = 20;
 
-        // 100ms間隔で無名関数を実行
         var id = setInterval(function () {
             spanedMSec+=interval;
 
