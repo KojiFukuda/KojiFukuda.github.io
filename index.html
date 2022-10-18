@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <head>
+    <html lang="ja"></html>
     <meta charset="utf-8">
     <title>CodeReadSample</title>
 </head>
@@ -15,7 +16,7 @@
     <br/>
     </font> 
     <input type="button" id = "btn" value="Clear" onclick="OnButtonClick();"/><br />
-    <div id="output2">release @ 2022/10/18 18:40</div>
+    <div id="output2">release @ 2022/10/18 18:45</div>
 </body>
 
 <script>
@@ -91,8 +92,9 @@
         const h = ("00" + date.getHours()).slice(-2)
         const m = ("00" + date.getMinutes()).slice(-2)
         const s = ("00" + date.getSeconds()).slice(-2)
+        const ms = ("00" + date.getMilliseconds()).slice(-2)
 
-        return Y + M + D + h + m + s
+        return Y +"/"+ M +"/"+ D +" "+ h +":"+ m +":"+ s + "." + ms
     }
     //定義されたキー項目がすべて入力完了したか？
     function isComplete(){
