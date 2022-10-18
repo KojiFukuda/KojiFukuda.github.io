@@ -4,21 +4,22 @@
     <title>CodeReadSample</title>
 </head>
 <body bgcolor="#BBBBE0" text="#505050">
-    <font size="6">
-    <p>Création</p>
-    <lebel>入力コード :</br> <input type="text" id="textcode" value="" ;"/></lebel><br />
-    <br />
-    <input type="button" id = "btn" value="Clear" onclick="OnButtonClick();"/><br />
-    </font> 
+    <font size="6"><p>Création</p></font>
+    
+    <font size = 4><lebel>入力コード :</br> <input type="text" readonly="readonly" font-size="6" id="textcode" value="" ;"/></lebel><br />
+    <br/>
+
     <div id="output"></div>
-    <br />
+    <br/>
     <div id="output2"></div>
     <br/>
-    <div id="output2">release @ 2022/10/18 15:35</div>
+    </font> 
+    <input type="button" id = "btn" value="Clear" onclick="OnButtonClick();"/><br />
+    <div id="output2">release @ 2022/10/18 17:45</div>
 </body>
 
 <script>
-    window.onload = initializeProc
+     window.onload = initializeProc;
      document.onkeydown = keyDown;
      var reading = false;
      var count = 0;
@@ -30,9 +31,13 @@
      //ページ中どこでキー押されてもフォーカスはテキストボックスに
      function keyDown()
      {
-        if(reading)return;
         // まずクリア
         targetinput = document.getElementById("textcode");
+        targetinput.value += String.fromCharCode(event.keyCode);
+        //alert(event.keyCode);
+        
+        if(reading)return;
+        
         targetinput.value = "";
         reading = true;
          
@@ -42,7 +47,7 @@
         targetinput.focus();
  
         // ちょっと遅延して入力確定
-        sleepfunc(300, function () {
+        sleepfunc(1300, function () {
             try{
                 var inputcode = targetinput.value;
                 var type = gettype(inputcode);
@@ -57,12 +62,12 @@
                 for(let index in keys){
                     var key = keys[index];
                     var val = params[key] ? params[key] : "";
-                    body += "<lebel>"+ key + ":</br> <input type=\"text\" readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
+                    body += "<lebel>"+ key + ":</br> <input type=\"text\" font-size= 130% readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
                 }
 
                 target.innerHTML = body;
                 if(isComplete()){
-                    target2.innerHTML= "Data is complete! </br>Send Data!</br><br>"+body;
+                    target2.innerHTML= "Data is complete! </br>Send Data!@"+DateTimeNow()+"</br><br>"+body;
                     clearValues();
                 }else{
                     target2.innerHTML="";
@@ -77,7 +82,17 @@
 
          });    
      }
-    
+    function DateTimeNow(){
+        const date = new Date()
+        const Y = date.getFullYear()
+        const M = ("00" + (date.getMonth()+1)).slice(-2)
+        const D = ("00" + date.getDate()).slice(-2)
+        const h = ("00" + date.getHours()).slice(-2)
+        const m = ("00" + date.getMinutes()).slice(-2)
+        const s = ("00" + date.getSeconds()).slice(-2)
+
+        return Y + M + D + h + m + s
+    }
     //定義されたキー項目がすべて入力完了したか？
     function isComplete(){
          var enablekey = keys.filter(key => !params[key] || params[key]=="");
