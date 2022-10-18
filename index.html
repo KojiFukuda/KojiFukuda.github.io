@@ -8,7 +8,7 @@
     <br />
     <lebel>入力コード : <input type="text" id="textcode" value="" ;"/></lebel><br />
     <br />
-    <input type="button" value="Exec" onclick="OnButtonClick();"/><br />
+    <input type="button" value="Clear" onclick="OnButtonClick();"/><br />
     <br />
     <div id="output"></div>
 </body>
@@ -81,8 +81,9 @@
      }
      function OnButtonClick() 
      {
-         target = document.getElementById("output");
-         target.innerHTML = "Enter text is.. " + textcode.value ;
+        targetinput.value = "";
+        target = document.getElementById("output");
+        target.innerHTML = "" ;
      }
  </script>
 </html>
