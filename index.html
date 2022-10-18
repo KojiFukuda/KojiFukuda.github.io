@@ -12,7 +12,8 @@
     <br />
     <div id="output"></div>
     <div id="output2"></div>
-    <div id="output2">release @ 2022/10/18 15:25</div>
+    <br/>
+    <div id="output2">release @ 2022/10/18 15:35</div>
 </body>
 
 <script>
@@ -41,80 +42,87 @@
  
         // ちょっと遅延して入力確定
         sleepfunc(300, function () {
-            var inputcode = targetinput.value;
-            
-            var type = gettype(inputcode);
-            if(type != "") params[type] = inputcode;
+            try{
+                var inputcode = targetinput.value;
+                var type = gettype(inputcode);
+                if(type == "") return;
 
-            target = document.getElementById("output");
-            target2 = document.getElementById("output2");
-            
-            var body = "";
-            for(let index in keys){
-                var key = keys[index];
-                var val = params[key] ? params[key] : "";
-                body += "<lebel>"+ key + " : <input type=\"text\" readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
+                params[type] = inputcode;
+
+                target = document.getElementById("output");
+                target2 = document.getElementById("output2");
+
+                var body = "";
+                for(let index in keys){
+                    var key = keys[index];
+                    var val = params[key] ? params[key] : "";
+                    body += "<lebel>"+ key + " : <input type=\"text\" readonly=\"readonly\" value=\""+val +"\" ;\"/></lebel><br />";
+                }
+
+                target.innerHTML = body;
+                if(isComplete()){
+                    target2.innerHTML= "Data is complete! </br>Send Data!</br><br>"+body;
+                    clearValues();
+                }else{
+                    target2.innerHTML="";
+                }
+
+            } finally
+            {
+                var button = document.getElementById("btn");
+                button.focus();
+                reading=false;
             }
 
-            target.innerHTML = body;
-            reading=false;
-            if(isComplete()){
-                target2.innerHTML= "Data is complete! </br>Send Data!</br><br>"+body;
-                clearValues();
-            }else{
-                target2.innerHTML="";
-            }
-
-            var button = document.getElementById("btn");
-            button.focus();
          });    
      }
-     function isComplete(){
+    
+    //定義されたキー項目がすべて入力完了したか？
+    function isComplete(){
          var enablekey = keys.filter(key => !params[key] || params[key]=="");
-         
          return enablekey.length == 0;
-     }
-     function gettype(readcode)
-     {
+    }
+
+    // 入力値からデータ種別を推定する
+    function gettype(readcode)
+    {
         if(readcode.startsWith('EID'))return "userid";
         if(readcode.startsWith('process'))return "procid";
         if(Number(readcode) && readcode.length == 10)return "orderno";
 
         return "";
-     }
+    }
+    
      function clearValues()
-     {
+    {
         targetinput.value = "";
         target = document.getElementById("output");
         params = {};
         target.innerHTML = "" ;
-     }
-     function sleepfunc(waitmilliSec, callbackFunc) {
-        // 経過時間（ms）
+    }
+
+    //一定時間後に指定処理を実行する
+    function sleepfunc(waitmilliSec, callbackFunc) {
         var spanedMSec = 0;
         var interval = 20;
 
         var id = setInterval(function () {
             spanedMSec+=interval;
-
-            // 経過時間 >= 待機時間の場合、待機終了。
             if (spanedMSec >= waitmilliSec) {
-                // タイマー停止
+                // タイマー停止＋コールバック関数実行
                 clearInterval(id);  
-                // 完了時、コールバック関数を実行
                 if (callbackFunc) callbackFunc();
             }
         }, interval);
-     }
+    }
  
-     function initializeProc()
-     {
-        
+    function initializeProc()
+    {
  
-     }
-     function OnButtonClick() 
-     {
-       clearValues();
-     }
- </script>
+    }
+    function OnButtonClick() 
+    {
+        clearValues();
+    }
+</script>
 </html>
